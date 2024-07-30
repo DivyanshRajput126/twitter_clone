@@ -3,8 +3,9 @@ import img from "../img/thread.png";
 import axios from "axios";
 import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
-
+import {useDispatch} from 'react-redux';
 import { USER_API_ENDPOINT } from "../Utils/Constant";
+import { getUser } from "../Redux/UserSlice";
 
 function Login() {
   const [isLogin, setisLogin] = useState(true);
@@ -13,6 +14,7 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ function Login() {
             withCredentials: true,
           }
         );
+        dispatch(getUser(res?.data?.user));
         console.log(res);
         if (res.data.success){
           navigate('/');
